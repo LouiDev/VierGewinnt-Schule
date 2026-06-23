@@ -86,11 +86,11 @@ public class Spielfeld {
 	public boolean istSpielfeldVoll() {
 		for (int i = 0; i < BOARD_WIDTH; i++) {
 			int index = spielfeld[i][0];
-			if (index == PLAYER_ONE || index == PLAYER_TWO)
-				return true;
+			if (index != PLAYER_ONE && index != PLAYER_TWO)
+				return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -107,10 +107,10 @@ public class Spielfeld {
 		int consecSideDiagonal = 0;
 
 		for(int i = 1; i < 4; i++) {
-			boolean isOutOfRightBound = width + i >= BOARD_WIDTH - 1;
-			boolean isOutOfLeftBound = width - i >= BOARD_WIDTH -1 ;
-			boolean isOutOfTopBound = height - i >= BOARD_HEIGHT - 1;
-			boolean isOutOfBottomBound = height + i >= BOARD_HEIGHT - 1;
+			boolean isOutOfRightBound = width + i > BOARD_WIDTH - 1;
+			boolean isOutOfLeftBound = width - i < 0;
+			boolean isOutOfTopBound = height - i < 0;
+			boolean isOutOfBottomBound = height + i > BOARD_HEIGHT - 1;
 
 			//Horizontaler Check
 			if (!isOutOfRightBound) {
@@ -129,13 +129,6 @@ public class Spielfeld {
 			// if(consecHorizontals > 3) return true;
 
 			//Vertikaler Check
-			if (!isOutOfTopBound) {
-				if(spielfeld[width][height] == spielfeld[width][height-i]) {
-					consecVertical++;
-				}
-			};
-
-
 			if (!isOutOfBottomBound) {
 				if(spielfeld[width][height] == spielfeld[width][height+i]) {
 					consecVertical++;
@@ -171,20 +164,16 @@ public class Spielfeld {
 				}
 			}
 
-			if (!isOutOfRightBound && !isOutOfBottomBound) {
-				if(spielfeld[width][height] == spielfeld[width+i][height]) {
-					consecHorizontals++;
-				}
-
+			if (!isOutOfLeftBound && !isOutOfBottomBound) {
 				if(spielfeld[width][height] == spielfeld[width-i][height+i]) {
 					consecSideDiagonal++;
 				}
 			}
 		}
 
-        return consecHorizontals > 3 ||
-                consecVertical > 3 ||
-                consecMainDiagonal > 3 ||
-                consecSideDiagonal > 3;
+        return consecHorizontals > 2 ||
+                consecVertical > 2 ||
+                consecMainDiagonal > 2 ||
+                consecSideDiagonal > 2;
     }
 }

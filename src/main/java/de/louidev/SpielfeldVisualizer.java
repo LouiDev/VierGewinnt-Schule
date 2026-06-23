@@ -20,7 +20,7 @@ public class SpielfeldVisualizer {
 
         final String[] symbols = {" ", "X", "O"};
         final String horizontal = "+---+---+---+---+---+---+---+";
-        String output = " 1   2   3   4   5   6   7\n";
+        String output = "  1   2   3   4   5   6   7\n";
 
         for(int row = 0; row < board[row].length; row++) {
 

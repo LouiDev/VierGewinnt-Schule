@@ -30,12 +30,12 @@ public class Main {
             if (spielfeld.steinSetzen(rowInput)) {
                 System.out.println(SpielfeldVisualizer.visualize(spielfeld.spielfeld()));
 
-                spielfeld.switchPlayers();
-
                 if (spielfeld.hatAktuellerSpielerGewonnen()) {
                     keepAlive = false;
                     System.out.println("Spieler " + spielfeld.playerTurn() + " hat gewonnen!");
                 }
+
+                spielfeld.switchPlayers();
             } else {
                 System.out.println("Ungültige Eingabe oder Spalte voll!");
             }
