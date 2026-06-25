@@ -22,7 +22,7 @@ public class Main {
             System.out.println("Spieler " + spielfeld.playerTurn() + " ist am Zug.");
             int rowInput = readRowInput();
 
-            if (rowInput == -1) {
+            if (rowInput < 0 || rowInput > 6) {
                 System.out.println("Ungültige Eingabe!");
                 continue;
             }

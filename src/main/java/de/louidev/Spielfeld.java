@@ -94,86 +94,44 @@ public class Spielfeld {
 	}
 
 	/**
+	 * @param x die horizontale Richtung in die geprüft wird. Kann -1, 0 oder 1 sein.
+	 * @param y die vertikale Richtung in die geprüft wird. Kann -1, 0 oder 1 sein.
+	 * @return Anzahl an Steinen die die gleiche Farbe wie der zu letzt platzierte Stein haben
+	 */
+	private int consecutiveValue(int x, int y) {
+		int consecVal = 0;
+		for(int i = 1; i < 4; i++) {
+			boolean isOutOfHorizontalBound =
+					x != 0 &&
+					(x * i + lastPlacedX >= BOARD_WIDTH || x * i + lastPlacedX < 0);
+			
+			boolean isOutOfVerticalBound =
+					y != 0 &&
+					(y * i + lastPlacedY >= BOARD_HEIGHT || y * i + lastPlacedY < 0);
+
+			boolean isOutBound = isOutOfHorizontalBound || isOutOfVerticalBound;
+
+			if (isOutBound) break;
+			if (spielfeld[lastPlacedX][lastPlacedY] == spielfeld[lastPlacedX + i * x][lastPlacedY + i * y]) consecVal++;
+			else break;
+			
+
+		}
+		return consecVal;
+	}
+
+	/**
 	 * Überprüft das Spielfeld, ob der aktuelle Spieler am Zug gewonnen hat
 	 * @return true, wenn der aktuelle Spieler gewonnen hat, sonst false
 	 */
 	public boolean hatAktuellerSpielerGewonnen() {
-		int width = lastPlacedX;
-		int height = lastPlacedY;
+        boolean horizontalWin = consecutiveValue(-1, 0) + consecutiveValue(1, 0) > 2;
+		boolean verticalWin = consecutiveValue(0, -1) + consecutiveValue(0, 1) > 2;
+		boolean mainDiagonalWin = consecutiveValue(-1, -1) + consecutiveValue(1, 1) > 2;
+		boolean sideDiagonalWin = consecutiveValue(-1, 1) + consecutiveValue(1, -1) > 2;
 
-		int consecHorizontals = 0;
-		int consecVertical = 0;
-		int consecMainDiagonal = 0;
-		int consecSideDiagonal = 0;
-
-		for(int i = 1; i < 4; i++) {
-			boolean isOutOfRightBound = width + i > BOARD_WIDTH - 1;
-			boolean isOutOfLeftBound = width - i < 0;
-			boolean isOutOfTopBound = height - i < 0;
-			boolean isOutOfBottomBound = height + i > BOARD_HEIGHT - 1;
-
-			//Horizontaler Check
-			if (!isOutOfRightBound) {
-				if(spielfeld[width][height] == spielfeld[width+i][height]) {
-					consecHorizontals++;
-				}
-			};
-
-			if (!isOutOfLeftBound) {
-				if(spielfeld[width][height] == spielfeld[width-i][height]) {
-					consecHorizontals++;
-				}
-			};
-
-
-			// if(consecHorizontals > 3) return true;
-
-			//Vertikaler Check
-			if (!isOutOfBottomBound) {
-				if(spielfeld[width][height] == spielfeld[width][height+i]) {
-					consecVertical++;
-				}
-			};
-
-
-
-			//Hauptdiagonaler Check
-
-			if (!isOutOfRightBound && !isOutOfBottomBound) {
-				if(spielfeld[width][height] == spielfeld[width+i][height+i] ) {
-					consecMainDiagonal++;
-				}
-			};
-
-
-
-			if (!isOutOfLeftBound && !isOutOfTopBound) {
-				if(spielfeld[width][height] == spielfeld[width-i][height-i]) {
-					consecMainDiagonal++;
-				}
-			};
-
-
-
-
-			//Seitdiagonaler Check
-
-			if (!isOutOfRightBound && !isOutOfTopBound) {
-				if(spielfeld[width][height] == spielfeld[width+i][height-i]) {
-					consecSideDiagonal++;
-				}
-			}
-
-			if (!isOutOfLeftBound && !isOutOfBottomBound) {
-				if(spielfeld[width][height] == spielfeld[width-i][height+i]) {
-					consecSideDiagonal++;
-				}
-			}
-		}
-
-        return consecHorizontals > 2 ||
-                consecVertical > 2 ||
-                consecMainDiagonal > 2 ||
-                consecSideDiagonal > 2;
+		return horizontalWin || verticalWin || mainDiagonalWin || sideDiagonalWin;
     }
 }
+
+
