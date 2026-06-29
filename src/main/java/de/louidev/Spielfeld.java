@@ -126,7 +126,7 @@ public class Spielfeld {
 	 */
 	public boolean hatAktuellerSpielerGewonnen() {
         boolean horizontalWin = consecutiveValue(-1, 0) + consecutiveValue(1, 0) > 2;
-		boolean verticalWin = consecutiveValue(0, -1) + consecutiveValue(0, 1) > 2;
+		boolean verticalWin = consecutiveValue(0, 1) > 2;
 		boolean mainDiagonalWin = consecutiveValue(-1, -1) + consecutiveValue(1, 1) > 2;
 		boolean sideDiagonalWin = consecutiveValue(-1, 1) + consecutiveValue(1, -1) > 2;
 
